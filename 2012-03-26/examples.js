@@ -43,4 +43,17 @@ var drawCylinder = function(r, h, n, m, color) {
 	COLOR(color)(cylinder);
 }
 
-//var drawSphere = 
+var drawSphere = function(r,n,color){
+	var domain = DOMAIN([[0,2*PI],[0,2*PI]])([n,n]);
+	var mapSphere = function(p){
+		var u = p[0];
+		var v = p[1];
+		var x = r * COS(u) * COS (v);
+		var y = r * COS(u) * SIN (v);
+		var z = r * SIN(u);
+		return [x,y,z];
+	}
+	var sphere = MAP(mapSphere)(domain);
+	DRAW(sphere);
+	COLOR(color)(sphere);
+}
