@@ -8,3 +8,6 @@ using only the plasm.js primitives POLYLINE and STRUCT.
 
 Let assume the grid of squares on the floor be 1.0m x 1.0m.
  * **/
+
+var square = POLYLINE([[0,0],[0,1],[1,1],[1,0]]);
+
