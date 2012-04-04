@@ -8,133 +8,6 @@ using only the plasm.js primitives SIMPLEX_GRID and STRUCT.
 Affine transformations T, S or R are also allowed.
  * **/
 
-var generateSquare = function(x,y){
-	var x = x || 0;
-	var y = y || 0;
-	return POLYLINE([[x,y],[x+1,y],[x+1,y+1],[x,y+1],[x,y]]);
-}
-var square = generateSquare(0,0);
-//DRAW(square);
-
-
-var generateSquareGrid = function(xi,xf,yi,yf){
-	//xi<xf e yi<yf
-	//xi,yi coordinate del punto iniziale
-	//xf,yf coordinate del punto in alto a dx
-	var i, j;
-	var grid = [];
-	for (i = xi; i < xf; i++){
-		for(j = yi; j < yf; j++){
-			grid.push(generateSquare(i,j));
-		}
-	}
-	return STRUCT(grid);
-}
-
-
-//var grid = generateSquareGrid(0,10,0,3);
-//DRAW(grid);
-
-var generateRect = function(xi,xf,yi,yf){
-	return POLYLINE([[xi,yi],[xi,yf],[xf,yf],[xf,yi],[xi,yi]]);	
-}
-
-var generateVerticalDashes = function(xi,xf,yi,yf,dx){
-	var dashes = [];
-	dashes.push(POLYLINE([[xi,yi],[xi,yf]]))
-	for(var i = xi; xi < xf; i++){
-		dashes.push(POLYLINE([[xi+dx,yi],[xi+dx,yf]]));
-	}
-	return STRUCT(dashes);
-}
-
-var generateVerticalDashes = function(xi,xf,yi,yf,dx){
-	var dashes = [];	
-	var x = xi;
-	while(x < xf){
-		dashes.push(POLYLINE([[x,yi],[x,yf]]));
-		x+=dx;
-	}
-	return STRUCT(dashes);
-}
-var generateHorizontalDashes = function(xi,xf,yi,yf,dy){
-	var dashes = [];
-	var y = yi;
-	while(y < yf){
-		dashes.push(POLYLINE([[xi,y],[xf,y]]));
-		y+=dy;
-	}
-	return STRUCT(dashes);
-}
-
-var generateBoldLine = function(points){
-	var line = POLYLINE(points);
-	return COLOR([0,0,0])(line);
-}
-
-var generateAllGrids = function(){
-	var firstRow = generateSquareGrid(0,39,0,1);
-	var secondRow = STRUCT([generateSquare(0,1),generateSquareGrid(21,36,1,2)]);
-	var grid1 = generateSquareGrid(21,31,2,14);
-	var grid2 = generateSquareGrid(31,32,2,7);
-	var grid3 = generateSquareGrid(32,36,2,9);
-	var grid4 = generateSquareGrid(36,47,4,16);
-	var grid5 = STRUCT([generateSquareGrid(47,52,4,5),generateSquare(51,5)]);
-	var grid6 = generateSquareGrid(34,36,9,12);
-	var grid7 = generateSquareGrid(32,36,12,16);
-	var grid8 = generateSquareGrid(1,21,10,14);
-	var grid9 = STRUCT([generateSquareGrid(1,6,14,15),generateSquareGrid(22,32,14,15)]);
-	var grid10 = generateSquareGrid(1,9,15,22);
-	var grid11 = generateSquareGrid(9,39,15,17);
-	return STRUCT([
-						firstRow,secondRow,grid1,grid2,grid3,grid4,
-						grid5,grid6,grid7,grid8,grid9,grid10,grid11,
-						
-						]);
-}
-
-var generateAllDashes = function(){
-	var dashes1 = generateHorizontalDashes(32,32.2,9,12,1);
-	var dashes2 = generateHorizontalDashes(33.2,34,9,12,1);	
-	var dashes3 = generateVerticalDashes(7,22,14.7,15,1);
-	var dashes4 = generateVerticalDashes(6.6,22,14,14.7,2.2);
-	var stairs = generateVerticalDashes(36,39,1,4,0.3);
-	return STRUCT([dashes1,dashes2,dashes3,dashes4,stairs]);
-}
-
-var generateAllRects = function(){
-	var rect1 = generateRect(31,32,7.4,13.8);
-	var rect2 = generateRect(32.2,33.2,9,12);
-	var rect3 = generateRect(6.6,22,14,14.7)
-
-	var pool1 = generateRect(1,21,1,10);
-	var pool2 = generateRect(47,51,5,16);
-	return STRUCT([rect1,rect2,rect3,pool1,pool2]);
-}
-
-var generateAllBoldLines = function(){
-	var wall1 = generateBoldLine([[6.3,15],[26.8,15]]);
-	var wall2 = generateBoldLine([[7.8,1],[1,1],[1,22],[9,22],[9,17]]);
-	var wall3 = generateBoldLine([[25,7.4],[34,7.4]]);
-	var wall4 = generateBoldLine([[30,13.7],[40,13.7]]);
-	var wall5 = generateBoldLine([[37.2,11.6],[42.6,11.6]]);
-	var wall6 = generateBoldLine([[41.2,5],[51,5],[51,16],[37.8,16]]);
-	var wall7 = generateBoldLine([[44.8,7],[44.8,14]]);
-	return STRUCT([wall1,wall2,wall3,wall4,wall5,wall6,wall7]);
-}
-
-var generateFloor = function(){
-	var floor = STRUCT([generateAllGrids(),generateAllDashes(),
-						generateAllRects(),generateAllBoldLines()						
-						]);
-	return floor;
-}
-
-var drawFloor = function(){
-	DRAW(generateFloor());
-}();
-
-
 var generate3DFloor = function(){
 	var fl1 = SIMPLEX_GRID([[39],[1],[1.5]]);	
 	var fl2 = SIMPLEX_GRID([[-1,35],[-1,3],[1.5]]);
@@ -175,10 +48,18 @@ var generatePools = function(){
 }
 
 var generateBenches = function(){
-	
+	var hPiede = 0.4;
+	var hFloor = 1.5;
+	var hBase = 0.3;
+	var base = T([0])([7])(SIMPLEX_GRID([REPLICA(7)([2.2,-0.03]),[-14,0.8],[-hFloor-hPiede,hBase]]));
+	//var piedi = T([0])([7.2])(SIMPLEX_GRID([REPLICA(7)([-0.2,0.3,-1.2,0.4,-0.3]),[-14,0.8],[-hFloor,hPiede]]));
+	var piedi = T([0])([7.2])(SIMPLEX_GRID([REPLICA(7)([0.3,-1.83]),[-14,0.8],[-hFloor,hPiede]]));
+	var lastPiede = SIMPLEX_GRID([[-22.2,0.3],[-14,0.8],[-hFloor,hPiede]]);
+	var benches = STRUCT([piedi,base,lastPiede]);
+	return benches;
 }
 
-var wallHeight = 6.5;
+var wallHeight = 5.5;//4m + pavimento
 
 var generateWalls = function(){
 	//muri di sinistra
@@ -191,20 +72,64 @@ var generateWalls = function(){
  	var wall5 = SIMPLEX_GRID([[-41.2,10],[-4.8,0.2],[wallHeight ]]);
  	var wall6 = SIMPLEX_GRID([[-51,0.2],[-4.8,11],[wallHeight ]]);
  	var wall7 = SIMPLEX_GRID([[-37.8,13.4],[-15.8,0.2],[wallHeight ]]);
- 	
+  	
  	//muri centrali
  	var wall8 = SIMPLEX_GRID([[-6.2,19],[-15,0.2],[wallHeight]]);//vicino alle panchine
- 	var wall8 = SIMPLEX_GRID([[-25,9],[-7.4,0.2],[wallHeight]]);
+ 	var wall9 = SIMPLEX_GRID([[-30,10],[-13.6,0.2],[wallHeight]]);
+ 	var wall10 = SIMPLEX_GRID([[-36.8,5],[-11.5,0.2],[wallHeight]]);
+ 	var wall11 = SIMPLEX_GRID([[-44.6,0.2],[-7,7],[wallHeight]]);
  	
- 	return STRUCT([wall1,wall2,wall3,wall4,wall6,wall7,wall8]);
+ 	return STRUCT([wall1,wall2,wall3,wall4,wall6,wall5,wall7,wall8,wall9,wall10,wall11]);
+}
+
+var generateColoumns = function(){
+	var coloumnModel=SIMPLEX_GRID([[0.15],[0.15],[-1.5,4]]);//da traslare a seconda delle necessità
+		
+	var coloumn1=T([0,1])([44.9,7])(coloumnModel);
+	var coloumn2=T([0,1])([31,14])(coloumnModel);
+	var coloumn3=T([0,1])([44.9,14])(coloumnModel);
+	var coloumn4=T([0,1])([38.5,14])(coloumnModel);
+	var coloumn5=T([0,1])([26.1,14])(coloumnModel);
+	var coloumn6=T([0,1])([38.5,7])(coloumnModel);
+	var coloumn7=T([0,1])([31,7])(coloumnModel);
+	var coloumn8=T([0,1])([38.45,7])(coloumnModel);
+	var coloumn9=T([0,1])([25.7,7])(coloumnModel);
+	
+	return STRUCT([coloumn1,coloumn2,
+		coloumn3,coloumn4,coloumn5,coloumn6,coloumn7,coloumn8,coloumn9]);
 }
 
 var generateRoofs = function(){
-	var roof1 = SIMPLEX_GRID([[],[],[]]);
-	return STRUCT([roof1]);
+	var leftRoof = SIMPLEX_GRID([[10],[-13,10],[-wallHeight-0.3,0.15]]);
+	var rightRoof = SIMPLEX_GRID([[-24,23],[-4,13],[-wallHeight-0.3,0.15]]);
+	
+	return STRUCT([leftRoof,rightRoof]);
 }
+
+
+var generateSottoTetti = function(){
+	var rightSottoTetto = SIMPLEX_GRID([[-24.2,22.6],[-4.2,12.6],[-wallHeight,0.3]]);
+	var leftSottoTetto = SIMPLEX_GRID([[-0.2,9.6],[-13.2,9.6],[-wallHeight,0.3]]);
+	return STRUCT([leftSottoTetto,rightSottoTetto]);
+}
+
+var generateGlasses = function(){
+	var glass1 = SIMPLEX_GRID([[-30,11.2],[-5,0.2],[-1.5,4]]); 
+	var glass2 = SIMPLEX_GRID([[-1,8],[-17,0.2],[-1.5,4]]); 
+	var glass3 = SIMPLEX_GRID([[-31,0.2],[-7.6,7],[-1.5,4]]); 
+	return STRUCT([glass1,glass2,glass3]);
+}
+
+
+
 
 DRAW(generate3DFloor());
 DRAW(generateStairs());
+DRAW(generateBenches());
 DRAW(generatePools());
+DRAW(generateColoumns());
 DRAW(generateWalls());
+DRAW(generateRoofs());
+DRAW(generateSottoTetti());
+DRAW(generateGlasses());
+

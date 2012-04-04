@@ -9,10 +9,6 @@ using only the plasm.js primitives POLYLINE and STRUCT.
 Let assume the grid of squares on the floor be 1.0m x 1.0m.
  * **/
 
-
-
-//var squareUno = POLYLINE([[0,0],[0,1],[1,1],[1,0]]);
-
 //Il quadrato è costruito a partire dal vertice in basso a sinistra
 var generateSquare = function(x,y){
 	var x = x || 0;
@@ -20,8 +16,6 @@ var generateSquare = function(x,y){
 	return POLYLINE([[x,y],[x+1,y],[x+1,y+1],[x,y+1],[x,y]]);
 }
 var square = generateSquare(0,0);
-//DRAW(square);
-
 
 var generateSquareGrid = function(xi,xf,yi,yf){
 	//xi<xf e yi<yf
@@ -36,10 +30,6 @@ var generateSquareGrid = function(xi,xf,yi,yf){
 	}
 	return STRUCT(grid);
 }
-
-
-//var grid = generateSquareGrid(0,10,0,3);
-//DRAW(grid);
 
 var generateRect = function(xi,xf,yi,yf){
 	return POLYLINE([[xi,yi],[xi,yf],[xf,yf],[xf,yi],[xi,yi]]);	
