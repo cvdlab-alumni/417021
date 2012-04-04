@@ -15,7 +15,7 @@ var generateSquare = function(x,y){
 	var y = y || 0;
 	return POLYLINE([[x,y],[x+1,y],[x+1,y+1],[x,y+1],[x,y]]);
 }
-var square = generateSquare(0,0);
+
 
 var generateSquareGrid = function(xi,xf,yi,yf){
 	//xi<xf e yi<yf
