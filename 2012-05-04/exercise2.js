@@ -43,7 +43,7 @@ var drawFuselage = function() {
 	 var c3 = BEZIER(S0)(p3);
 	 
 
-	
+	//cockpit
 	var surf1 = MAP(BEZIER(S1)([c0,c2,c3]))(domain2);
 	
 
@@ -56,6 +56,7 @@ var drawFuselage = function() {
 	 
 	 var p5 = [[1,8.5,1/5]];
 	 var c5 = BEZIER(S0)(p5);
+	 //tail
 	 var surf2 = MAP(BEZIER(S1)([c1,c4,c5]))(domain2);
 	 
 	 surf1 = R([0,2])([PI])(surf1);
@@ -68,5 +69,6 @@ var drawFuselage = function() {
 	 	DRAW(COLOR([1,1,0,1])(surf0));	
 	DRAW((surf1));	
 	 DRAW(COLOR([1,1,0,1])(surf2));	
-	
+	 
+
 }();

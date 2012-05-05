@@ -83,3 +83,12 @@ var drawLeftStabilizer = function (rightStab){
 	DRAW(struct);
 	return leftStab2;
 }();
+
+var drawVerticalStabilizer = function(){
+	var rightStab = drawRightStabilizer();
+	var leftStab = AA(R([0,2])([Math.PI]))(rightStab);
+	var leftStab2 = AA(R([1,2])([Math.PI*0.035]))(leftStab);
+	var struct = STRUCT(leftStab2);
+	DRAW(struct);
+	return leftStab2;
+}
