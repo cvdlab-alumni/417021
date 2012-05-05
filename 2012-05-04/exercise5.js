@@ -250,6 +250,7 @@ fl3 = COLOR([1,1,1,1])(fl3);
 
 var fl4 = T([0,1,2])([17,5,1])(SIMPLEX_GRID([[5],(REPLICA(7)([-5,7])),[0.1]]));
 
-
-	DRAW(T([0,1,2])([-15,-15,-10])(STRUCT([fl1,fl2,fl3,fl4])));
+var s = T([0,1,2])([-15,-15,-10])(STRUCT([fl1,fl2,fl3,fl4]));
+s = R([1,2])([Math.PI])(s);
+	DRAW(s);
 }();
