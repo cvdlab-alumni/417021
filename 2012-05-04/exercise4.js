@@ -3,6 +3,7 @@
  * 
  * Assemble the various assemblies and/or subassemblies into a single model.
  */
+
 var drawFuselage = function() {
 	var POLYPOINT = function(points) {
 		return SIMPLICIAL_COMPLEX(points)(points.map(function(p, i) {
@@ -213,12 +214,26 @@ rightSurf = COLOR([1,1,0,1])(rightSurf);
 	 DRAW(rightSurf);
 	 DRAW(curves);
 	 
+	 	 leftSurf1 = R([0,2])([PI/2])(leftSurf);
+	 middleSurf1 = R([0,2])([PI/2])(middleSurf);
+	 rightSurf1 = R([0,2])([PI/2])(rightSurf);
+
+	 	 leftSurf1 = T([0,1,2])([0,-0.5,0])(leftSurf1);
+	 middleSurf1 = T([0,1,2])([0,-0.5,0])(middleSurf1);
+	 rightSurf1 = T([0,1,2])([0,-0.5,0])(rightSurf1);
+	 
+	 	 DRAW(middleSurf1);
+	 DRAW(leftSurf1);
+	 DRAW(rightSurf1);
+
+	 
 	 //var st = STRUCT([leftSurf,middleSurf,rightSurf,curves]);
 	 DRAW(COLOR([1,1,0,1])(S([0])([-1])(middleSurf)));
 	 DRAW(COLOR([1,1,0,1])(S([0])([-1])(leftSurf)));
 	 DRAW(COLOR([1,1,0,1])(S([0])([-1])(rightSurf)));
 	 DRAW(S([0])([-1])(curves));
+	 
+
 
 return [leftSurf,middleSurf,rightSurf,curves];
 }();
-
