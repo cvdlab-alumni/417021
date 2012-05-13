@@ -56,5 +56,7 @@ body.push(COLOR(red)(SIMPLEX_GRID([[-2, 4, -1 , 3, -1, 2], [-6, 1], [1]])));//ro
 body.push(COLOR(blue)(SIMPLEX_GRID([[-6, 1, -3, 1], [-6, 1], [1]])));
 body.push(COLOR(brown)(SIMPLEX_GRID([[-15, 1], [-6, 1], [1]])));
 
-DRAW(STRUCT(face));
-DRAW(STRUCT(body));
+scmodel = STRUCT(face.concat(body));
+
+DRAW(scmodel);
+
