@@ -1,7 +1,8 @@
 /**
  * @author Alessio De Angelis
  * 
- * SUPER MARIO FUN
+ * SUPER MARIO PIXEL ART FUN
+ * Inspired by this render: http://art.ngfiles.com/images/130/petelavadigger_super-mario-pixel.png
  */
 
 var red = [209/255, 35/255, 26/255, 1];
@@ -57,6 +58,3 @@ body.push(COLOR(blue)(SIMPLEX_GRID([[-6, 1, -3, 1], [-6, 1], [1]])));
 body.push(COLOR(brown)(SIMPLEX_GRID([[-15, 1], [-6, 1], [1]])));
 
 scmodel = STRUCT(face.concat(body));
-
-DRAW(scmodel);
-
