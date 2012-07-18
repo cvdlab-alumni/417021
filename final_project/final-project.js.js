@@ -289,7 +289,8 @@ var drawModel = function() {
 	var surfTrans = T([0,1,2])([-3,-3,10])(surfRotated);
 
 	surfStruct = surfTrans;
-
+	
 	DRAW(surfStruct);
+	DRAW(T([0])([8])(S([0])([-1])(surfStruct))); //draw the mirrored leg
 }();
 
